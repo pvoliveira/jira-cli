@@ -300,7 +300,11 @@ func (c *JiraCLIConfig) configureMetadata() error {
 			if c.value.installation == jira.InstallationTypeCloud {
 				epicKey = v["key"].(string)
 			} else if c.value.installation == jira.InstallationTypeLocal {
-				epicKey = v["fieldId"].(string)
+				if ek, ok := v["fieldId"]; ok && ek != nil {
+					epicKey = ek.(string)
+				} else {
+					epicKey = ""
+				}
 			}
 			break
 		}
